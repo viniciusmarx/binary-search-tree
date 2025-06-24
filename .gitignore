@@ -1,0 +1,23 @@
+# Compilador
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dll
+
+# Arquivos de depuração
+*.dSYM/
+*.stackdump
+core
+
+# Backups/temporários
+*~
+*.swp
+*.bak
+
+# Arquivos de IDEs
+.vscode/
+.idea/
+*.log
