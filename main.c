@@ -309,7 +309,7 @@ void consultarOcorrenciasAlfabeto(Alfabeto *alfabeto, char *palavra)
   if (ocorrencias == 0)
     printf("Palavra %s nao encontrada\n", palavra);
   else
-    printf("Palavra %s encontrada com %d ocorrencias(s)\n", palavra, ocorrencias);
+    printf("Palavra %s encontrada com %d ocorrencia(s)\n", palavra, ocorrencias);
 }
 
 int contarPalavrasAVL(Palavra *raiz)
@@ -476,7 +476,6 @@ void menu(Alfabeto *alfabeto)
 
     case 2:
       printf("Digite a palavra para consultar: ");
-      char palavra[30];
       scanf("%s", palavra);
       consultarOcorrenciasAlfabeto(alfabeto, palavra);
       break;
@@ -493,6 +492,7 @@ void menu(Alfabeto *alfabeto)
 
     case 5:
       printf("Total de ocorrencias (todas insercoes): %d\n", contarOcorrenciasTotais(alfabeto));
+      break;
 
     case 6:
       mostrarAlfabetoCompleto(alfabeto);
@@ -522,18 +522,43 @@ void menu(Alfabeto *alfabeto)
     default:
       printf("Opção inválida\n");
     }
-  } while (opcao != 4);
+  } while (opcao != 10);
+}
+
+void strToLower(char *palavra)
+{
+  for (int i = 0; palavra[i]; i++)
+  {
+    palavra[i] = tolower((unsigned char)palavra[i]);
+  }
+}
+
+void inputInicial(Alfabeto *alfabeto)
+{
+  FILE *file = fopen("../input.txt", "r");
+  if (!file)
+  {
+    printf("Erro ao abrir o arquivo");
+    return;
+  }
+
+  char palavra[50];
+  while (fscanf(file, "%49s", palavra) == 1)
+  {
+    strToLower(palavra);
+
+    inserirNoAlfabeto(alfabeto, palavra);
+  }
+  fclose(file);
+  printf("Palavras do arquivo foram inseridas com sucesso.\n");
+  ;
 }
 
 int main()
 {
   Alfabeto alfabeto[26];
   iniciaAlfabeto(alfabeto);
-
-  inserirNoAlfabeto(alfabeto, "ana");
-  inserirNoAlfabeto(alfabeto, "amor");
-  inserirNoAlfabeto(alfabeto, "amigo");
-  inserirNoAlfabeto(alfabeto, "zebra");
+  inputInicial(alfabeto);
 
   menu(alfabeto);
 
